@@ -69,18 +69,41 @@
 			is: 'youtube-video',
 
 			properties: {
-				videoId: String,
+				/**
+				 * The Youtube Video Id
+				 * @attribute videoId
+				 * @type Sting
+				 */
+				videoId: {
+					type: String,
+					value: 'mGSVNXi1dIU'
+				},
+				/**
+				 * The current time of the Video
+				 * @attribute time
+				 * @type Number
+				 */
 				time: {
 					type: Number,
-					observer: 'timeChanged',
+					observer: '_timeChanged',
 					value: 0
 				},
+				/**
+				 * Breakpoints where to stop the video automatically
+				 * @attribute pauseon
+				 * @type Array
+				 */
 				pauseon: {
 					type: Array,
 					value: function() {
 						return [];
 					}
 				},
+				/**
+				 * Which points to skip automatically
+				 * @attribute videoId
+				 * @type Sting
+				 */
 				skipto: {
 					type: Array,
 					value: function() {
@@ -90,14 +113,14 @@
 			},
 
 			listeners: {
-				'google-youtube-ready': 'onYoutubeReady'
+				'google-youtube-ready': '_onYoutubeReady'
 			},
 
-			onYoutubeReady: function() {
+			_onYoutubeReady: function() {
 				this.$.vid.mute();
 			},
 
-			timeChanged: function(time){
+			_timeChanged: function(time){
 				console.log('observer');
 				var player = this.$.vid;
 				if (this.pauseon) {
@@ -118,6 +141,13 @@
 					}
 			},
 
+			/**
+			 * Add breakpoint at the correct position.
+			 * 
+			 * Will be ignored, when breakpoint lies before the current video time.
+			 * 
+			 * @param {number} breakpoint The time code in seconds where to pause.
+			 */
 			addBreakpoint: function(breakpoint) {
 				if(this.time < breakpoint)
 					this.push('pauseon', breakpoint);
@@ -126,6 +156,14 @@
 				});
 			},
 
+			/**
+			 * Adds a part of the video to skip.
+			 * 
+			 * Will be ignored, when `from` lies before the current video time.
+			 * 
+			 * @param {number} from The position where to pause the video and to skip from.
+			 * @param {number} to The position to skip to.
+			 */
 			addSkip: function(from, to) {
 				if(this.time < from)
 					this.push('skipto', from, to);
