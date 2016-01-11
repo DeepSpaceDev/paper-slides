@@ -89,6 +89,15 @@
 					value: 0
 				},
 				/**
+				 * Whether the audio should be muted by default
+				 * @attribute mute
+				 * @type Boolean
+				 */
+				mute: {
+					type: Boolean,
+					value: false
+				},
+				/**
 				 * Breakpoints where to stop the video automatically
 				 * @attribute pauseon
 				 * @type Array
@@ -117,15 +126,14 @@
 			},
 
 			_onYoutubeReady: function() {
-				this.$.vid.mute();
+				if(this.mute)
+					this.$.vid.mute();
 			},
 
 			_timeChanged: function(time){
-				console.log('observer');
 				var player = this.$.vid;
 				if (this.pauseon) {
 					console.log(time);
-					console.log(this.pauseon[0]);
 					if(time === this.pauseon[0]){
 						player.pause();
 						this.shift('pauseon'); //remove first element
