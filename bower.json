@@ -1,0 +1,29 @@
+{
+  "name": "paper-slides",
+  "version": "1.0.3",
+  "authors": [
+    "Dennis Kugelmann <kugelmann.dennis@gmail.com>",
+    "Sebastian Schneider <sese.tailor@gmail.com>"
+  ],
+  "description": "A Slide creator with google in Material Design",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "slides",
+    "material-design",
+    "paper"
+  ],
+  "main": "paper-slides.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/DeepSpaceDev/paper-slides/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+  }
+}
