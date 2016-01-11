@@ -28,24 +28,11 @@ Example:
     <style>
       :host {
         display: block;
-        box-sizing: border-box;
-      }
-  
-      .author img {
-        display: block;
-        float: left;
-        margin-right: 5px;
-        max-height: 100px;
-        max-width: 100px;
       }
     </style>
-    <h1>&lt;paper-slides&gt;</h1>
-    <content></content>
-    <p class="author">
-      <img src="{{author.image}}">
-      Cheers,<br/>
-      <span class="name">{{author.name}}</span>
-    </p>
+    
+    <youtube-video pauseon="[[pauseon]]" skipto="[[skipto]]" video-url="ZW3aV7U-aik"></youtube-video>
+
   </template>
 
 </dom-module>
@@ -57,95 +44,18 @@ Example:
     is: 'paper-slides',
 
     properties: {
-
-      /**
-       * `fancy` indicates that the element should don a monocle and tophat,
-       * while checking its pocket watch.
-       */
-      fancy: Boolean,
-
-      /**
-       * Describes the author of the element, but is really just an excuse to
-       * show off JSDoc annotations.
-       *
-       * @type {{name: string, image: string}}
-       */
-      author: {
-        type: Object,
-        // Use `value` to provide a default value for a property, by setting it
-        // on your element's prototype.
-        //
-        // If you provide a function, as we do here, Polymer will call that
-        // _per element instance_.
-        //
-        // We do that to ensure that each element gets its own copy of the
-        // value, rather than having it shared across all instances (via the
-        // prototype).
-        value: function() {
-          return {
-            name:  'Dimitri Glazkov',
-            image: 'http://addyosmani.com/blog/wp-content/uploads/2013/04/unicorn.jpg',
-          };
+      pauseon: {
+        type: Array,
+        value: function () {
+          return [3, 28, 58, 72, 90, 96, 104, 108, 113, 117, 119, 129, 136, 143, 150, 177, 183, 208, 214, 220, 229, 240, 250, 256, 265];
         }
       },
-
-    },
-
-    // Element Lifecycle
-
-    ready: function() {
-      // `ready` is called after all elements have been configured, but
-      // propagates bottom-up. This element's children are ready, but parents
-      // are not.
-      //
-      // This is the point where you should make modifications to the DOM (when
-      // necessary), or kick off any processes the element wants to perform.
-    },
-
-    attached: function() {
-      // `attached` fires once the element and its parents have been inserted
-      // into a document.
-      //
-      // This is a good place to perform any work related to your element's
-      // visual state or active behavior (measuring sizes, beginning animations,
-      // loading resources, etc).
-    },
-
-    detached: function() {
-      // The analog to `attached`, `detached` fires when the element has been
-      // removed from a document.
-      //
-      // Use this to clean up anything you did in `attached`.
-    },
-
-    // Element Behavior
-
-    /**
-     * The `paper-slides-lasers` event is fired whenever `fireLasers` is called.
-     *
-     * @event paper-slides-lasers
-     * @detail {{sound: String}}
-     */
-
-    /**
-     * Sometimes it's just nice to say hi.
-     *
-     * @param {string} greeting A positive greeting.
-     * @return {string} The full greeting.
-     */
-    sayHello: function(greeting) {
-      var response = greeting || 'Hello World!';
-      return 'paper-slides says, ' + response;
-    },
-
-    /**
-     * Attempt to destroy this element's enemies with a beam of light!
-     *
-     * Or, at least, dispatch an event in the vain hope that someone else will
-     * do the zapping.
-     */
-    fireLasers: function() {
-      this.fire('paper-slides-lasers', {sound: 'Pew pew!'});
+      skipto: {
+        type: Array,
+        value: function () {
+          return [12, 20, 160, 168, 194, 205, 287, 211];
+        }
+      }
     }
 
   });

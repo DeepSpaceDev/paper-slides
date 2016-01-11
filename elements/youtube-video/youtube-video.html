@@ -22,13 +22,13 @@
 		</style>
 
 		<section>
-			<google-youtube currenttime="{{videoTime}}" hl="en" cc_load_policy="0" autoplay="1" id="vid" width="100%" height="99.5%" video-id="{{videoUrl}}" chromeless></google-youtube>
+			<google-youtube currenttime="{{time}}" hl="en" cc_load_policy="0" autoplay="1" id="vid" width="100%" height="99.5%" video-id="{{videoUrl}}" chromeless></google-youtube>
 			<toolbar-toggler></toolbar-toggler>
 		</section>
 		
 	</template>
 	<script>
-		var player;
+		/*var player;
 		var pauseon = [3, 28, 58, 72, 90, 96, 104, 108, 113, 117, 119, 129, 136, 143, 150, 177, 183, 208, 214, 220, 229, 240, 250, 256, 265];
 		var skipto = [12, 20, 160, 168, 194, 205, 287, 211] //[from, to, from2, to2, ...]
 		
@@ -60,9 +60,8 @@
 					}, 100);
 				});
 			}
-		});
+		});*/
 
-				/*var player;
 		var pauseon = [3, 28, 58, 72, 90, 96, 104, 108, 113, 117, 119, 129, 136, 143, 150, 177, 183, 208, 214, 220, 229, 240, 250, 256, 265];
 		var skipto = [12, 20, 160, 168, 194, 205, 287, 211] //[from, to, from2, to2, ...]
 
@@ -70,34 +69,67 @@
 			is: 'youtube-video',
 
 			properties: {
-				videoUrl: String,
-				videoTime: {
+				videoId: String,
+				time: {
 					type: Number,
-					observer: 'timeChanged'
+					observer: 'timeChanged',
+					value: 0
+				},
+				pauseon: {
+					type: Array,
+					value: function() {
+						return [];
+					}
+				},
+				skipto: {
+					type: Array,
+					value: function() {
+						return [];
+					}
 				}
 			},
 
-			attached: function(){
-				player = qs('#vid');
-				player.addEventListener("google-youtube-ready", function(){
-					player.mute();
+			listeners: {
+				'google-youtube-ready': 'onYoutubeReady'
+			},
+
+			onYoutubeReady: function() {
+				this.$.vid.mute();
+			},
+
+			timeChanged: function(time){
+				console.log('observer');
+				var player = this.$.vid;
+				if (this.pauseon) {
+					console.log(time);
+					console.log(this.pauseon[0]);
+					if(time === this.pauseon[0]){
+						player.pause();
+						this.shift('pauseon'); //remove first element
+					}
+				}
+
+				if(this.skipto)
+					if(time === this.skipto[0]){
+						player.pause();
+						this.shift('skipto'); //remove first element
+						player.seekTo(this.skipto[0]);
+						this.shift('skipto');
+					}
+			},
+
+			addBreakpoint: function(breakpoint) {
+				if(this.time < breakpoint)
+					this.push('pauseon', breakpoint);
+				this.pauseon.sort(function(a, b) {
+					return a - b;
 				});
 			},
 
-			timeChanged: function(){
-				l('observer');
-				if(player.currenttime == pauseon[0]){
-					player.pause();
-					pauseon.shift(); //remove first element
-				}
-
-				if(player.currenttime == skipto[0]){
-					player.pause();
-					skipto.shift(); //remove first element
-					player.seekTo(skipto[0]);
-					skipto.shift();
-				}
+			addSkip: function(from, to) {
+				if(this.time < from)
+					this.push('skipto', from, to);
 			}
-		});*/	
+		});	
 	</script>
 </dom-module>

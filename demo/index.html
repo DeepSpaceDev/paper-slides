@@ -18,30 +18,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </head>
   <body unresolved>
 
-    <p>An example of <code>&lt;paper-slides&gt;</code>:</p>
-
-    <p>Make words! <button id="saybtn">Say Something</button></p>
-    <p>Make lasers! <button id="laserbtn">Fire lasers</button></p>
-
-    <paper-slides author='{"name": "Lord Meowser", "image": "http://placekitten.com/g/200/300"}' fancy>
-      <h2>Hello paper-slides</h2>
+    <paper-slides>
     </paper-slides>
 
     <script>
-      var seedElement = document.querySelector('paper-slides');
-      
-      document.querySelector('#saybtn').addEventListener('click', function() {
-        alert(seedElement.sayHello('Hallo!'));
-      });
-      
-      document.querySelector('#laserbtn').addEventListener('click', function() {
-        seedElement.fireLasers();
-      });
-      
-      document.addEventListener("paper-slides-lasers", function(e) {
-        console.log(e.detail.sound);
-      });
-      
     </script>
 
   </body>
