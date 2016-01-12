@@ -1,0 +1,21 @@
+<dom-module id="slide-title">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+			div {
+				margin: 0 64px;
+			}
+		</style>
+		<div style$="{{textStyle}}"><content></content></div>
+	</template>
+	<script>
+		Polymer({
+			is: 'slide-title',
+
+			behaviors: [TextBehavior]
+
+		});
+	</script>
+</dom-module>
