@@ -1,34 +1,78 @@
 <script>
+
+	/**
+	 * `PaperSlides.TextBehavior` is implemented by elements containing text to be formated easily. <br>
+	 * Elements that should implement these styles have to 
+	 * add the `textStyle`-property in his own `style`-attribute: <br>
+	 * `<div style$="[[textStyle]]"></div>` 
+	 * @polymerBehavior
+	 */
+
 	 var PaperSlides = {};
 
 	PaperSlides.TextBehavior = {
 
 		properties: {
+			/**
+			 * The styles of the text
+			 * @attribute textStyle
+			 * @type String
+			 */
 			textStyle: {
 				type: String,
 				value: '',
 				readOnly: true
 			},
+			/**
+			 * The font-size of the text in pixels
+			 * @attribute size
+			 * @type Number
+			 */
 			size: {
 				type: Number,
 				value: 32
 			},
+			/**
+			 * The color of the text (any valid CSS Color)
+			 * @attribute color
+			 * @type String
+			 */
 			color: {
 				type: String,
 				value: '#000'
 			},
+			/**
+			 * The background of the text (any valid CSS Color)
+			 * @attribute background
+			 * @type String
+			 */
 			background: {
 				type: String,
 				value: ''
 			},
+			/**
+			 * If text is italic
+			 * @attribute italic
+			 * @type Boolean
+			 */
 			italic: {
 				type: Boolean,
 				value: false
 			},
+			/**
+			 * If text is bold
+			 * @attribute bold
+			 * @type Boolean
+			 */
 			bold: {
 				type: Boolean,
 				value: false
 			},
+			/**
+			 * If text is underlined
+			 * @attribute underlined
+			 * @type Boolean
+			 */
 			underline: {
 				type: Boolean,
 				value: false
