@@ -13,8 +13,9 @@
 		</style>
 		<paper-material elevation="1">
 			<template is="dom-if" if={{title}}>
-			<slide-title>[[title]]</slide-title>
+				<slide-title>[[title]]</slide-title>
 			</template>
+			<div style$="{{textStyle}}">I'm just an content.</div>
 			<template is="dom-if" if={{content}}>
 				
 			</template>
@@ -23,6 +24,8 @@
 	<script>
 		Polymer({
 			is: 'text-slide',
+
+			behaviors: [PaperSlides.TextBehavior],
 
 			properties: {
 				title: {
