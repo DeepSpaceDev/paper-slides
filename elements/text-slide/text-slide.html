@@ -1,0 +1,34 @@
+<dom-module id="text-slide">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+			paper-material {
+				margin: 64px;
+				padding: 32px;
+				width: calc(100% - 64px - 64px - 64px);
+				max-height: calc(100% - 64px - 64px - 64px);
+			}
+		</style>
+		<paper-material elevation="1">
+			<template is="dom-if" if={{title}}>
+			<slide-title>[[title]]</slide-title>
+			</template>
+			<template is="dom-if" if={{content}}>
+				
+			</template>
+		</paper-material>
+	</template>
+	<script>
+		Polymer({
+			is: 'text-slide',
+
+			properties: {
+				title: {
+					type: String
+				}
+			}
+		});
+	</script>
+</dom-module>
