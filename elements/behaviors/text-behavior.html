@@ -1,0 +1,49 @@
+<script>
+	TextBehavior = {
+
+		properties: {
+			textStyle: {
+				type: String,
+				value: '',
+				readOnly: true
+			},
+			size: {
+				type: Number,
+				value: 32
+			},
+			color: {
+				type: String,
+				value: '#000'
+			},
+			background: {
+				type: String,
+				value: ''
+			},
+			italic: {
+				type: Boolean,
+				value: false
+			},
+			bold: {
+				type: Boolean,
+				value: false
+			},
+			underline: {
+				type: Boolean,
+				value: false
+			}
+		},
+
+		observers: ['_computeTextStyles(size, color, background, italic, bold, underline)'],
+
+		_computeTextStyles: function(size, color, background, italic, bold, underline) {
+			this._setTextStyle(
+				'font-size: ' + size + 'px; ' + 
+				'color: ' + color + '; ' + 
+				'background: ' + background + '; ' + 
+				'font-style: ' + (italic ? 'italic; ' : 'normal; ') +
+				'font-weight: ' + (bold ? 'bold; ' : 'normal; ') +
+				'text-decoration: ' + (underline ? 'underline; ' : 'none; '));
+			console.log(this.textStyle);
+		}
+	};
+</script>
