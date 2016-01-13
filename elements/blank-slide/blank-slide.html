@@ -13,7 +13,7 @@
 				height: calc(100% - 64px - 64px - 64px);
 			}
 		</style>
-		<paper-material elevation="1">
+		<paper-material style$="[[slideStyles]]" elevation="1">
 			<template is="dom-if" if={{title}}>
 				<slide-title>[[title]]</slide-title>
 			</template>
@@ -27,9 +27,24 @@
 			is: 'blank-slide',
 
 			properties: {
+				slideStyles: {
+					type: String,
+					value: '',
+					readOnly: true
+				},
+				background: {
+					type: String,
+					value: '#E0E0E0'
+				},
 				title: {
 					type: String
 				}
+			},
+
+			observers: ['_updateSlideStyles(background)'],
+
+			_updateSlideStyles: function (background) {
+				this._setSlideStyles('background: ' + background + ';');
 			}
 		});
 	</script>
