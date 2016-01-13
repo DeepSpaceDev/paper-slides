@@ -76,19 +76,24 @@
 			underline: {
 				type: Boolean,
 				value: false
+			},
+			align: {
+				type: String,
+				value: 'center'
 			}
 		},
 
-		observers: ['_computeTextStyles(size, color, background, italic, bold, underline)'],
+		observers: ['_computeTextStyles(size, color, background, italic, bold, underline, align)'],
 
-		_computeTextStyles: function(size, color, background, italic, bold, underline) {
+		_computeTextStyles: function(size, color, background, italic, bold, underline, align) {
 			this._setTextStyle(
 				'font-size: ' + size + 'px; ' + 
 				'color: ' + color + '; ' + 
 				'background: ' + background + '; ' + 
 				'font-style: ' + (italic ? 'italic; ' : 'normal; ') +
 				'font-weight: ' + (bold ? 'bold; ' : 'normal; ') +
-				'text-decoration: ' + (underline ? 'underline; ' : 'none; '));
+				'text-decoration: ' + (underline ? 'underline; ' : 'none; ') + 
+				'text-align: ' + align + '; ');
 			console.log(this.textStyle);
 		}
 	};
