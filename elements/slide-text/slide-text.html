@@ -1,0 +1,22 @@
+<dom-module id="slide-text">
+	<template>
+		<style>
+			:host {
+				@apply(--slide-component);
+				top: 120px;
+				left: 95px;
+			}
+		</style>
+		<div style$="{{textStyle}}"><content></content></div>
+	</template>
+	<script>
+		Polymer({
+			is: 'slide-text',
+
+			behaviors: [PaperSlides.TextBehavior],
+
+			properties: {
+			}
+		});
+	</script>
+</dom-module>

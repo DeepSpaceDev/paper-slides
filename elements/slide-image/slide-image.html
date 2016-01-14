@@ -1,0 +1,43 @@
+<dom-module id="slide-image">
+	<template>
+		<style>
+			:host {
+				@apply(--slide-component);
+				top: 140px;
+				left: 90px;
+			}
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+		<img src="[[src]]">
+	</template>
+	<script>
+		Polymer({
+			is: 'slide-image',
+
+			properties: {
+				/**
+				 * The src of the image
+				 * @attribute src
+				 * @type String
+				 */
+				src: {
+					type: String,
+					value: 'https://www.polymer-project.org/images/logos/lockup.svg'
+				},
+				/**
+				 * The width of the image in percent
+				 * @attribute width
+				 * @type Number
+				 */
+				width: {
+					type: Number,
+					value: 100,
+					observer: 'sizeChanged'
+				}
+			}
+		});
+	</script>
+</dom-module>
