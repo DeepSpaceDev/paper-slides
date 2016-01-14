@@ -5,6 +5,7 @@
 				display: block;
 				width: 100%;
 				height: 100%;
+				position: relative;
 			}
 			paper-material {
 				margin: 64px;
@@ -18,7 +19,8 @@
 				<slide-title>[[title]]</slide-title>
 			</template>
 			<template is="dom-if" if={{content}}>
-				
+				<slide-text>[[content]]</slide-text>
+				<slide-image></slide-image>
 			</template>
 		</paper-material>
 	</template>
@@ -27,16 +29,39 @@
 			is: 'blank-slide',
 
 			properties: {
+				/**
+				 * The styles applied to the slide
+				 * @attribute slideStyles
+				 * @type String
+				 */
 				slideStyles: {
 					type: String,
 					value: '',
 					readOnly: true
 				},
+				/**
+				 * The background of the slide
+				 * @attribute background
+				 * @type String
+				 */
 				background: {
 					type: String,
 					value: '#E0E0E0'
 				},
+				/**
+				 * The title of the slide
+				 * @attribute title
+				 * @type String
+				 */
 				title: {
+					type: String
+				},
+				/**
+				 * The content of the slide
+				 * @attribute contentsd
+				 * @type String
+				 */
+				content: {
 					type: String
 				}
 			},

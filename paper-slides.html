@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="elements/elements.html">
+<link rel="stylesheet" type="text/css" href="styles/main.css">
 
 <!--
 An element providing a solution to no problem in particular.
@@ -26,6 +27,12 @@ Example:
 
 	<template>
 		<style>
+			:root {
+				--slide-component: {
+					display: block;
+					position: absolute;
+				};
+			}
 			:host {
 				display: block;
 				width: 100%;
@@ -39,7 +46,7 @@ Example:
 		<!-- Dennis -->
 		<!-- <youtube-video pauseon="[[pauseon]]" skipto="[[skipto]]" video-url="sNhhvQGsMEc" mute></youtube-video> -->
 
-		<blank-slide title="Fermi Paradoxon"></blank-slide>
+		<blank-slide title="Fermi Paradoxon" content="This is a content<br>withOUT a line break."></blank-slide>
 
 	</template>
 
