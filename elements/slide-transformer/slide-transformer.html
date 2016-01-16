@@ -96,16 +96,18 @@
 		<div id="container" draggable="false" class="resizable draggable">
 			<content></content>
 			<template is="dom-if" if={{enabled}}>
-				<div id="rot" class="ui-rotatable-handle"></div>
-				<div class="ui-rotatable-connector"></div>
-				<div id="nw" class="ui-resizable-handle ui-resizable-nw"></div>
-				<div id="ne" class="ui-resizable-handle ui-resizable-ne"></div>
-				<div id="sw" class="ui-resizable-handle ui-resizable-sw"></div>
-				<div id="se" class="ui-resizable-handle ui-resizable-se"></div>
-				<div id="n" class="ui-resizable-handle ui-resizable-n"></div>
-				<div id="s" class="ui-resizable-handle ui-resizable-s"></div>
-				<div id="e" class="ui-resizable-handle ui-resizable-e"></div>
-				<div id="w" class="ui-resizable-handle ui-resizable-w"></div>
+				<template is="dom-if" if={{resizable}}>
+					<div id="rot" class="ui-rotatable-handle"></div>
+					<div class="ui-rotatable-connector"></div>
+					<div id="nw" class="ui-resizable-handle ui-resizable-nw"></div>
+					<div id="ne" class="ui-resizable-handle ui-resizable-ne"></div>
+					<div id="sw" class="ui-resizable-handle ui-resizable-sw"></div>
+					<div id="se" class="ui-resizable-handle ui-resizable-se"></div>
+					<div id="n" class="ui-resizable-handle ui-resizable-n"></div>
+					<div id="s" class="ui-resizable-handle ui-resizable-s"></div>
+					<div id="e" class="ui-resizable-handle ui-resizable-e"></div>
+					<div id="w" class="ui-resizable-handle ui-resizable-w"></div>
+				</template>
 			</template>
 		</div>
 	</template>
@@ -118,6 +120,10 @@
 					type: Boolean,
 					value: true,
 					observer: '_enabledChanged'
+				},
+				resizable: {
+					type: Boolean,
+					value: true
 				},
 				width: {
 					type: Number,
