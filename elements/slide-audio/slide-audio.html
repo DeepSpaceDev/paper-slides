@@ -1,0 +1,172 @@
+<dom-module id="slide-audio">
+	<template>
+		<style>
+			:host {
+				display: block;
+				transform: translate(0, 200px);
+			}
+			paper-material {
+				height: 40px;
+			}
+			paper-icon-button {
+				position: absolute;
+			}
+			paper-slider {
+				position: absolute;
+				top: 50%;
+				margin-top: -16px;
+			}
+			#durationSlider {
+				display: inline-block;
+				margin-left: 40px;
+			}
+			#volume {
+				margin-left: 265px;
+			}
+			#volumeChanger {
+				background: white;
+				width: 130px;
+				position: absolute;
+				margin-top: -40px;	
+				left: 220px;
+				visibility: collapse;
+			}
+			#volumeSlider {
+				width: 130px;
+			}
+		</style>
+		<audio 
+			id="audio"
+			on-timeupdate="_currentTimeChanged" 
+			on-ended="_ended"
+			src="[[src]]" volume="[[volume]]" 
+			preload="auto">
+		</audio>
+		<template is="dom-if" if={{player}}>
+			<paper-material style="max-width: 305px" elevation="2">
+				<paper-icon-button icon="[[_playIcon]]" on-tap="togglePlayState"></paper-icon-button>
+				<paper-slider id="durationSlider" min="0" max="[[duration]]" value="{{time}}" on-change="_timeChanged"></paper-slider>
+				<paper-icon-button id="volume" icon="[[_volumeIcon]]" on-tap="openVolChanger"></paper-icon-button>
+				<paper-material id="volumeChanger" elevation="3">
+					<paper-slider id="volumeSlider" 
+						min="0" max="1" step="0.1" 
+						immediate-value="{{volume}}" value="{{volume}}">
+					</paper-slider>
+				</paper-material>
+			</paper-material>
+		</template>
+	</template>
+	<script>
+		Polymer({
+			is: 'slide-audio',
+
+			properties: {
+				src: {
+					type: String,
+					value: 'https://upload.wikimedia.org/wikipedia/commons/a/a6/German_national_anthem_performed_by_the_US_Navy_Band.ogg'
+				},
+				volume: {
+					type: Number,
+					value: '0.5',
+					observer: '_volumeChanged'
+				},
+				player: {
+					type: Boolean,
+					value: true
+				},
+				duration: {
+					type: Number,
+					value: 0,
+					readOnly: true
+				},
+				time: {
+					type: Number,
+					value: 0
+				},
+				_playIcon: {
+					type: String,
+					value: 'av:play-arrow',
+					readOnly: true
+				},
+				_volumeIcon: {
+					type: String,
+					value: 'av:volume-up',
+					readOnly: true
+				}
+			},
+
+			attached: function() {
+				this.$.audio.addEventListener('durationchange', function(event) {
+					this._setDuration(Math.floor(this.$.audio.duration));
+				}.bind(this));
+			},
+
+			detached: function() {
+				this.$.audio.removeEventListener('durationchange');
+				document.removeEventListener('click', this.closeVolChanger);
+			},
+
+			openVolChanger: function() {
+				this.querySelector('#volumeChanger').style.visibility = 'visible';
+				document.addEventListener('click', this.closeVolChanger.bind(this));
+			},
+
+			closeVolChanger: function(e) {
+				console.log('volChanger');
+				console.log(this.querySelector('#volumeSlider'));
+				if(!this.hasParent(this.querySelector('#volumeSlider'), e.target) && 
+				   !this.hasParent(this.querySelector('#volume'), e.target)) {
+					this.querySelector('#volumeChanger').style.visibility = 'collapse';
+					document.removeEventListener('click', this.closeVolChanger);
+				}
+			},
+
+			_volumeChanged: function(volume) {
+				if(volume === 0)
+					this._set_volumeIcon('av:volume-mute');
+				else if(volume < 0.5)
+					this._set_volumeIcon('av:volume-down');
+				else 
+					this._set_volumeIcon('av:volume-up');
+			},
+
+			play: function() {
+				this.$.audio.play();
+				this._set_playIcon('av:pause');
+			},
+
+			pause: function() {
+				this.$.audio.pause();
+				this._set_playIcon('av:play-arrow');
+			},
+
+			togglePlayState: function() {
+				if(this.$.audio.paused) this.play();
+				else this.pause();
+			},
+
+			_timeChanged: function() {
+				this.$.audio.currentTime = this.time;
+			},
+
+			_currentTimeChanged: function(e) {
+				this.time = Math.floor(e.target.currentTime);
+			},
+
+			_ended: function(e) {
+				this.$.audio.currentTime = 0;
+				this.pause();
+			},
+
+			hasParent: function(parentNode, target) {
+				var isParent = false;
+				do {
+					var target = target.parentElement;
+					if(target === parentNode)
+						isParent = true;
+				} while(target !== parentNode && target.localName !== 'body');
+				return isParent;
+			}
+		});
+	</script>
+</dom-module>
