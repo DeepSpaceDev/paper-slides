@@ -1,0 +1,237 @@
+<dom-module id="slide-transformer">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+			#container {
+				padding: 8px;
+				border-width: 2px;
+				border-style: solid;
+				width: 100%;
+				height: 100%;
+			}
+			:not(.resizable) {
+				border-color: rgba(0, 0, 0, 0);
+			}
+			.draggable {
+				cursor: move;
+				will-change: transform;
+			}
+			.resizable {
+				border-color: rgb(0, 150, 253);
+				position: relative;
+				min-height: 50px;
+				resize: both;
+			}
+			.ui-rotatable-handle {
+				width: 8px;
+				height: 8px;
+				background-color: #ffffff;
+				top: -25px;
+				left: calc(50% - 5px);
+				border: 1px solid rgb(0, 150, 253);
+				border-radius: 50%;
+				position: absolute;
+				cursor: crosshair;
+			}
+			.ui-rotatable-connector {
+				width: 2px;
+				height: 11px;
+				background-color: rgb(0, 150, 253);
+				top: -16px;
+				left: calc(50% - 1px);
+				position: absolute;
+				cursor: default;
+			}
+			.ui-resizable-handle {
+				width: 8px;
+				height: 8px;
+				background-color: #ffffff;
+				border: 1px solid rgb(0, 150, 253);
+				border-radius: 2px;
+				position: absolute;
+			}
+			.ui-resizable-nw {
+				left: -5px;
+				top: -5px;
+				cursor: nw-resize;
+			}
+			.ui-resizable-ne {
+				top: -5px;
+				right: -5px;
+				cursor: ne-resize;
+			}
+			.ui-resizable-sw {
+				bottom: -5px;
+				left: -5px;
+				cursor: sw-resize;
+			}
+			.ui-resizable-se {
+				bottom: -5px;
+				right: -5px;
+				cursor: se-resize;
+			}
+			.ui-resizable-n {
+				top: -5px;
+				left: calc(50% - 5px);
+				cursor: n-resize;
+			}
+			.ui-resizable-s {
+				bottom: -5px;
+				left: calc(50% - 5px);
+				cursor: s-resize;
+			}
+			.ui-resizable-w {
+				left: -5px;
+				top: calc(50% - 5px);
+				cursor: w-resize;
+			}
+			.ui-resizable-e {
+				right: -5px;
+				top: calc(50% - 5px);
+				cursor: e-resize;
+			}
+		</style>
+		<div id="container" draggable="false" class="resizable draggable">
+			<content></content>
+			<template is="dom-if" if={{enabled}}>
+				<div id="rot" class="ui-rotatable-handle"></div>
+				<div class="ui-rotatable-connector"></div>
+				<div id="nw" class="ui-resizable-handle ui-resizable-nw"></div>
+				<div id="ne" class="ui-resizable-handle ui-resizable-ne"></div>
+				<div id="sw" class="ui-resizable-handle ui-resizable-sw"></div>
+				<div id="se" class="ui-resizable-handle ui-resizable-se"></div>
+				<div id="n" class="ui-resizable-handle ui-resizable-n"></div>
+				<div id="s" class="ui-resizable-handle ui-resizable-s"></div>
+				<div id="e" class="ui-resizable-handle ui-resizable-e"></div>
+				<div id="w" class="ui-resizable-handle ui-resizable-w"></div>
+			</template>
+		</div>
+	</template>
+	<script>
+		Polymer({
+			is: 'slide-transformer',
+
+			properties: {
+				enabled: {
+					type: Boolean,
+					value: true,
+					observer: '_enabledChanged'
+				},
+				width: {
+					type: Number,
+					observer: '_widthChanged'
+				},
+				height: {
+					type: Number,
+					observer: '_heightChanged'
+				},
+				_width: {
+					type: Number,
+					readOnly: true
+				},
+				_height: {
+					type: Number,
+					readOnly: true
+				},
+				x: {
+					type: Number,
+					value: 250
+				},
+				y: {
+					type: Number,
+					value: 0
+				},
+				_x: {
+					type: Number,
+					readOnly: true
+				},
+				_y : {
+					type: Number,
+					readOnly: true
+				}
+			},
+
+			listeners: {
+				'track': '_onTrack'
+			},
+
+			observers: ['_transformChanged(x, y)'],
+
+			_enabledChanged: function(enabled) {
+				this.$.container.classList.toggle('resizable', enabled);
+				this.$.container.classList.toggle('draggable', enabled);
+			},
+
+			_onTrack: function(e) {
+				if(this.enabled) {
+					if(e.target === this.querySelector('#n'))
+						this.scale(e.detail.state, 0, -1, e.detail.dx, e.detail.dy);
+					else if(e.target === this.querySelector('#ne'))
+						this.scale(e.detail.state, 1, -1, e.detail.dx, e.detail.dy);
+					else if(e.target === this.querySelector('#e'))
+						this.scale(e.detail.state, 1, 0, e.detail.dx, e.detail.dy);
+					else if(e.target === this.querySelector('#se'))
+						this.scale(e.detail.state, 1, 1, e.detail.dx, e.detail.dy);
+					else if(e.target === this.querySelector('#s'))
+						this.scale(e.detail.state, 0, 1, e.detail.dx, e.detail.dy);
+					else if(e.target === this.querySelector('#sw'))
+						this.scale(e.detail.state, -1, 1, e.detail.dx, e.detail.dy);
+					else if(e.target === this.querySelector('#w'))
+						this.scale(e.detail.state, -1, 0, e.detail.dx, e.detail.dy);
+					else if(e.target === this.querySelector('#nw'))
+						this.scale(e.detail.state, -1, -1, e.detail.dx, e.detail.dy);
+					else
+						this.move(e.detail.state, e.detail.dx, e.detail.dy);
+				}
+			},
+
+			move: function(state, dx, dy) {
+				if(state === 'start') {
+					this._set_x(this.x);
+					this._set_y(this.y);
+					return;
+				}
+				this.x = this._x + dx;
+				this.y = this._y + dy;
+			},
+
+			scale: function(state, xAxis, yAxis, dx, dy) {
+				if(xAxis < 0 && yAxis < 0)
+					this.move(state, dx, dy);
+				else if(xAxis < 0)
+					this.move(state, dx, 0);
+				else if(yAxis < 0)
+					this.move(state, 0, dy);
+				if(state === 'start') {
+					this._set_height(this.height);
+					this._set_width(this.width);
+					return;
+				}
+				this.width = (this._width + dx * xAxis);
+				this.height = (this._height + dy * yAxis);
+			},
+
+			_transformChanged: function(x, y) {
+				this.$.container.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+			},
+
+			attached: function() {
+				var rect = this.getBoundingClientRect();
+				this.width = rect.width;
+				this.height = rect.height;
+			},
+
+			_widthChanged: function(width) {
+				if(width)
+					this.$.container.style.width = width + 'px';
+			},
+
+			_heightChanged: function(height) {
+				if(height)
+					this.$.container.style.height = height + 'px';
+			}
+		});
+	</script>
+</dom-module>
