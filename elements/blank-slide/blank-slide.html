@@ -15,13 +15,7 @@
 			}
 		</style>
 		<paper-material style$="[[slideStyles]]" elevation="1">
-			<template is="dom-if" if={{title}}>
-				<slide-title>[[title]]</slide-title>
-			</template>
-			<template is="dom-if" if={{content}}>
-				<slide-text>[[content]]</slide-text>
-				<slide-image></slide-image>
-			</template>
+			<content></content>
 		</paper-material>
 	</template>
 	<script>
