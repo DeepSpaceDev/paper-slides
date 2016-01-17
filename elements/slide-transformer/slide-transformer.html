@@ -224,9 +224,11 @@
 			},
 
 			attached: function() {
-				var rect = this.getBoundingClientRect();
-				this.width = rect.width;
-				this.height = rect.height;
+				var rect = this.$.container.getBoundingClientRect();
+				if(!this.width)
+					this.width = rect.width;
+				if(!this.height)
+					this.height = rect.height;
 			},
 
 			_widthChanged: function(width) {
