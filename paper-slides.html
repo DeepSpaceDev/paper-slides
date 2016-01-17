@@ -11,6 +11,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="elements/elements.html">
 <link rel="stylesheet" type="text/css" href="styles/main.css">
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
 <!--
 An element providing a solution to no problem in particular.
 
@@ -46,7 +48,13 @@ Example:
 		<!-- Dennis -->
 		<!-- <youtube-video pauseon="[[pauseon]]" skipto="[[skipto]]" video-url="sNhhvQGsMEc" mute></youtube-video> -->
 
-		<blank-slide title="Fermi Paradoxon" content="This is a content<br>withOUT a line break."></blank-slide>
+		<blank-slide>
+			<slide-title>Fermi Paradoxon</slide-title>
+			<slide-text>This is a content<br>with a line break.</slide-text>
+			<slide-image></slide-image>
+			<slide-audio></slide-audio>
+			<!-- <slide-frame></slide-frame> -->
+		</blank-slide>
 
 	</template>
 

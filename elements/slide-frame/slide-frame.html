@@ -1,0 +1,33 @@
+<dom-module id="slide-frame">
+	<template>
+		<style>
+			:host {
+				@apply(--slide-component);
+				top: 220px;
+				width: 1470px;
+				height: 500px;
+			}
+		</style>
+		<iframe src="[[url]]" width="[[width]]" height="[[height]]"></iframe>
+	</template>
+	<script>
+		Polymer({
+			is: 'slide-frame',
+
+			properties: {
+				url: {
+					type: String,
+					value: 'https://deepspace.onl/az'
+				},
+				width: {
+					type: String,
+					value: '100%'
+				},
+				height: {
+					type: String,
+					value: '100%'
+				}
+			}
+		});
+	</script>
+</dom-module>
