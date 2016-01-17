@@ -4,6 +4,8 @@
 			:host {
 				display: block;
 				transform: translate(0, 200px);
+				width: 325px;
+				height: 70px;
 			}
 			paper-material {
 				height: 40px;
@@ -35,26 +37,38 @@
 				width: 130px;
 			}
 		</style>
-		<audio 
-			id="audio"
-			on-timeupdate="_currentTimeChanged" 
-			on-ended="_ended"
-			src="[[src]]" volume="[[volume]]" 
-			preload="auto">
-		</audio>
-		<template is="dom-if" if={{player}}>
-			<paper-material style="max-width: 305px" elevation="2">
-				<paper-icon-button icon="[[_playIcon]]" on-tap="togglePlayState"></paper-icon-button>
-				<paper-slider id="durationSlider" min="0" max="[[duration]]" value="{{time}}" on-change="_timeChanged"></paper-slider>
-				<paper-icon-button id="volume" icon="[[_volumeIcon]]" on-tap="openVolChanger"></paper-icon-button>
-				<paper-material id="volumeChanger" elevation="3">
-					<paper-slider id="volumeSlider" 
-						min="0" max="1" step="0.1" 
-						immediate-value="{{volume}}" value="{{volume}}">
+		<slide-transformer enabled="[[disabled]]" resizable="[[_resizeable]]" width="305" height="20">
+			<audio 
+				id="audio"
+				on-timeupdate="_currentTimeChanged" 
+				on-ended="_ended"
+				src="[[src]]" volume="[[volume]]" 
+				preload="auto">
+			</audio>
+			<template is="dom-if" if={{player}}>
+				<paper-material style="max-width: 305px" elevation="2">
+					<paper-icon-button icon="[[_playIcon]]" 
+						on-tap="togglePlayState" disabled="[[disabled]]">
+					</paper-icon-button>
+
+					<paper-slider id="durationSlider" 
+						min="0" max="[[duration]]" value="{{time}}" 
+						on-change="_timeChanged" disabled="[[disabled]]">
 					</paper-slider>
+
+					<paper-icon-button id="volume" icon="[[_volumeIcon]]" 
+						on-tap="openVolChanger" disabled="[[disabled]]">
+					</paper-icon-button>
+
+					<paper-material id="volumeChanger" elevation="3">
+						<paper-slider id="volumeSlider" 
+							min="0" max="1" step="0.1" disabled="[[disabled]]"
+							immediate-value="{{volume}}" value="{{volume}}">
+						</paper-slider>
+					</paper-material>
 				</paper-material>
-			</paper-material>
-		</template>
+			</template>
+		</slide-transformer>
 	</template>
 	<script>
 		Polymer({
@@ -69,6 +83,10 @@
 					type: Number,
 					value: '0.5',
 					observer: '_volumeChanged'
+				},
+				disabled: {
+					type: Boolean,
+					value: true
 				},
 				player: {
 					type: Boolean,
@@ -92,6 +110,11 @@
 					type: String,
 					value: 'av:volume-up',
 					readOnly: true
+				},
+				_resizeable: {
+					type: Boolean,
+					value: false,
+					readOnly: true
 				}
 			},
 
@@ -112,8 +135,6 @@
 			},
 
 			closeVolChanger: function(e) {
-				console.log('volChanger');
-				console.log(this.querySelector('#volumeSlider'));
 				if(!this.hasParent(this.querySelector('#volumeSlider'), e.target) && 
 				   !this.hasParent(this.querySelector('#volume'), e.target)) {
 					this.querySelector('#volumeChanger').style.visibility = 'collapse';
